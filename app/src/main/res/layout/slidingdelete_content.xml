@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_alignParentLeft="true"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/content_icon_layout">
+        <TextView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/slidingdelete_icon_bg"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/tv_icon_close">
+        </TextView>
+        <TextView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/delete"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/btn_icon_open">
+        </TextView>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_alignParentRight="true"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/content_list_button_layout">
+        <TextView
+            android:layout_width="12dp"
+            android:layout_height="8dp"
+            android:background="@drawable/arrow_up"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/btn_content_list"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/content_icon_layout"
+        android:layout_toLeftOf="@id/content_list_button_layout"
+        android:layout_centerVertical="true"
+        android:gravity="left"
+        android:textColor="#262626"
+        android:id="@+id/content_container_layout">
+    </FrameLayout>
+
+</RelativeLayout>
