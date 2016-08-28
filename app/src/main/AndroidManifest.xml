@@ -12,6 +12,10 @@
         </activity>
 
         <activity android:name=".activity.PullToRefreshLayoutActivity">
+
+        </activity>
+
+        <activity android:name=".activity.TableGridLayoutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
