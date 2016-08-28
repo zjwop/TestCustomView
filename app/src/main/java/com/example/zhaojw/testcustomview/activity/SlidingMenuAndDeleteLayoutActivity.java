@@ -1,7 +1,10 @@
 package com.example.zhaojw.testcustomview.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -12,7 +15,7 @@ import com.example.zhaojw.testcustomview.view.SlidingMenuLayout;
 
 import java.util.ArrayList;
 
-public class SlidingMenuAndDeleteLayoutActivity extends AppCompatActivity {
+public class SlidingMenuAndDeleteLayoutActivity extends Activity {
 
 
     private SlidingDeleteLayout slidingDeleteLayout;
@@ -21,6 +24,10 @@ public class SlidingMenuAndDeleteLayoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_sliding_menu_and_delete_layout);
         slidingDeleteLayout = (SlidingDeleteLayout) findViewById(R.id.slidingDeleteLayout);
         slidingDeleteLayout.setIconText("1");

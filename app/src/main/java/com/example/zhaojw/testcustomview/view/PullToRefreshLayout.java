@@ -69,7 +69,7 @@ public class PullToRefreshLayout extends LinearLayout{
         listView = new ListView(mContext);
         listView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         LayoutParams listViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        listViewLayoutParams.height = 1000;
+        listViewLayoutParams.height = size.y;
         listView.setLayoutParams(listViewLayoutParams);
         addView(listView);
 

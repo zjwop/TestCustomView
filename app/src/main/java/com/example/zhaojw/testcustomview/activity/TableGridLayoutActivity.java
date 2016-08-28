@@ -1,15 +1,18 @@
 package com.example.zhaojw.testcustomview.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.zhaojw.testcustomview.R;
 import com.example.zhaojw.testcustomview.view.TableGridLayout;
 
-public class TableGridLayoutActivity extends AppCompatActivity {
+public class TableGridLayoutActivity extends Activity {
 
 
     private TableGridLayout tableGridLayout;
@@ -19,6 +22,9 @@ public class TableGridLayoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_table_grid_layout);
         initView();
 

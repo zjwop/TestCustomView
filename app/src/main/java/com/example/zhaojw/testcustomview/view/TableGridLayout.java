@@ -3,6 +3,7 @@ package com.example.zhaojw.testcustomview.view;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -23,13 +24,22 @@ public class TableGridLayout extends ViewGroup{
 
     private static int OUT_ITEMS_MARGIN = 30;
     private static int INTER_ITEMS_MARGIN = 20;
+    private static int MAX_SHOW_LINES = 3;
 
     private int windowWidth;
     private int outItemsMargin;
     private int interItemsMargin;
+
     private ArrayList<String> datas;
     private static String[] strings = {"0abc","1abcd","2ab","3abcdefg",
-                                        "4ab","5abcdefghigklm","6adce","7adbefsc"};
+                                        "4ab","5abcdefhigklac","6adce","7adbefsc"};
+    private boolean isScroll;
+    private int maxScrollY;
+
+    private float beginY;
+    private float curY;
+    private float endY;
+
     public TableGridLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
@@ -92,13 +102,25 @@ public class TableGridLayout extends ViewGroup{
                 int childWidth = childView.getMeasuredWidth();
                 int childHeight = childView.getMeasuredHeight();
                 if(childWidth <= rowRemain){
-                    rowRemain = rowRemain - childWidth;
+                    rowRemain = rowRemain - childWidth - interItemsMargin;
                 }else{
                     rowNum++;
                     rowRemain = windowWidth - outItemsMargin * 2 - childWidth;
                 }
-                int totalHeight = outItemsMargin * 2 + interItemsMargin*(rowNum-1) + childHeight * rowNum;
-                setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), totalHeight);
+
+                if(rowNum <= MAX_SHOW_LINES){
+                    int totalHeight = outItemsMargin * 2 + interItemsMargin*(rowNum-1) + childHeight * rowNum;
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), totalHeight);
+                    isScroll = false;
+                }else{
+                    int totalHeight = outItemsMargin * 2 + interItemsMargin*(rowNum-1) + childHeight * rowNum;
+                    int viewHeight = outItemsMargin + interItemsMargin * MAX_SHOW_LINES + childHeight * MAX_SHOW_LINES;
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), viewHeight);
+                    maxScrollY = totalHeight -  viewHeight;
+                    isScroll = true;
+                }
+
+
             }
         }else{
             setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), 0);
@@ -125,13 +147,47 @@ public class TableGridLayout extends ViewGroup{
             else{
                 topBegin = topBegin + childHeight + interItemsMargin;
                 leftBegin = outItemsMargin;
-                rowRemain = windowWidth;
+                rowRemain = windowWidth - interItemsMargin * 2;
                 childView.layout(leftBegin, topBegin, leftBegin + childWidth, topBegin + childHeight);
 
             }
-            leftBegin = leftBegin + childWidth;
-            rowRemain = rowRemain - childWidth;
+            leftBegin = leftBegin + childWidth + interItemsMargin;
+            rowRemain = rowRemain - childWidth - interItemsMargin;
 
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(isScroll){
+            int scrollY = getScrollY();
+            switch(event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    beginY = event.getRawY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    curY = event.getRawY();
+                    float deltaY = curY - beginY;
+                    if(deltaY >= 0){
+                        int destY = (int)(scrollY - deltaY);
+                        if(destY < 0){
+                            destY = 0;
+                        }
+                        scrollTo(0, destY);
+                    }else{
+                        int destY = (int)(scrollY + (-deltaY));
+                        if( destY > maxScrollY ){
+                            destY = maxScrollY;
+                        }
+                        scrollTo(0, destY);
+                    }
+                    beginY = curY;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    endY = event.getRawY();
+            }
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 }
