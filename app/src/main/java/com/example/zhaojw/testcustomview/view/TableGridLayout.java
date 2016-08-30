@@ -7,8 +7,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.example.zhaojw.testcustomview.R;
@@ -31,9 +35,15 @@ public class TableGridLayout extends ViewGroup{
     private int interItemsMargin;
 
     private ArrayList<String> datas;
-    private static String[] strings = {"0abc","1abcd","2ab","3abcdefg",
-                                        "4ab","5abcdefhigklac","6adce","7adbefsc"};
+    private static String[] strings = {"zhaojw","one piece","javen","helloword"};
+
+    private Scroller mScroller;
     private boolean isScroll;
+    private boolean isAddView;
+    private boolean isDeleteView;
+
+    private int contentHeight;
+    private int widgetHeight;
     private int maxScrollY;
 
     private float beginY;
@@ -53,22 +63,23 @@ public class TableGridLayout extends ViewGroup{
         interItemsMargin = INTER_ITEMS_MARGIN;
         datas = new ArrayList<String>();
 
+        mScroller = new Scroller(mContext);
+
         initChildViews();
     }
 
 
     public void addChild(String string){
         datas.add(string);
-        datas.add(string);
         View view = getChildView(string);
         addView(view);
-        requestLayout();
+        isAddView = true;
     }
 
 
 
     private void initChildViews(){
-        for(int i = 0; i <8; i++){
+        for(int i = 0; i < strings.length; i++){
             String string = strings[i];
             datas.add(string);
             View view = getChildView(string);
@@ -82,9 +93,41 @@ public class TableGridLayout extends ViewGroup{
         textView.setLayoutParams(layoutParams);
         textView.setText(string);
         textView.setTextSize(40);
-        textView.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+        textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        textView.setOnClickListener(mDeleteItemListner);
         return textView;
     }
+
+    //设置删除回调,并设定动画
+    private View.OnClickListener mDeleteItemListner = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+
+            //Animation scaleAnimation = AnimationUtils.loadAnimation(mContext, R.anim.table_grid_item_delete);
+            final View view = v;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1,0,1,0);
+            scaleAnimation.setDuration(1000);
+            view.startAnimation(scaleAnimation);
+            scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    removeView(view);
+                    isDeleteView = true;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+        }
+    };
 
 
     @Override
@@ -109,14 +152,15 @@ public class TableGridLayout extends ViewGroup{
                 }
 
                 if(rowNum <= MAX_SHOW_LINES){
-                    int totalHeight = outItemsMargin * 2 + interItemsMargin*(rowNum-1) + childHeight * rowNum;
-                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), totalHeight);
+                    contentHeight = outItemsMargin * 2 + interItemsMargin*(rowNum-1) + childHeight * rowNum;
+                    widgetHeight = contentHeight;
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), widgetHeight);
                     isScroll = false;
                 }else{
-                    int totalHeight = outItemsMargin * 2 + interItemsMargin*(rowNum-1) + childHeight * rowNum;
-                    int viewHeight = outItemsMargin + interItemsMargin * MAX_SHOW_LINES + childHeight * MAX_SHOW_LINES;
-                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), viewHeight);
-                    maxScrollY = totalHeight -  viewHeight;
+                    contentHeight = outItemsMargin * 2 + interItemsMargin * ( rowNum - 1 ) + childHeight * rowNum;
+                    widgetHeight = outItemsMargin * 2 + interItemsMargin * (MAX_SHOW_LINES - 1)  + childHeight * MAX_SHOW_LINES;
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), widgetHeight);
+                    maxScrollY = contentHeight -  widgetHeight;
                     isScroll = true;
                 }
 
@@ -155,7 +199,28 @@ public class TableGridLayout extends ViewGroup{
             rowRemain = rowRemain - childWidth - interItemsMargin;
 
         }
+        //设置添加和删除子View时候正确的滚动位置
+        if(isAddView == true){
+            isAddView = false;
+            scrollToBottom();
+        }
+        if(isDeleteView == true){
+            isAddView = false;
+            if(!isScroll){
+                scrollToTop();
+            }else{
+                if(contentHeight - getScrollY() <= widgetHeight){
+                    scrollToBottom();
+                }else{
+                    return;
+                }
+            }
+
+        }
+
     }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -189,5 +254,29 @@ public class TableGridLayout extends ViewGroup{
             return true;
         }
         return super.onTouchEvent(event);
+    }
+
+
+    private void scrollToBottom(){
+        int scrollY = getScrollY();
+        int deltaY = maxScrollY - scrollY;
+        mScroller.startScroll(0,scrollY,0,deltaY,500);
+        postInvalidate();
+    }
+
+    private void scrollToTop(){
+        int scrollY = getScrollY();
+        int deltaY = 0 - scrollY;
+        mScroller.startScroll(0,scrollY,0,deltaY,500);
+        postInvalidate();
+    }
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if(mScroller.computeScrollOffset()){
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            postInvalidate();
+        }
     }
 }
