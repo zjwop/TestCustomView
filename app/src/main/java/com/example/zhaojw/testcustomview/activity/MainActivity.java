@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private static final String[] strings = {"SlidingMenu And SlidingLayout",
                                 "PullToRefreshLayout",
-                                "TableGridLayout"};
+                                "TableGridLayout",
+                                "XfermodeView"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
                    case 2:
                        intent = new Intent(MainActivity.this, TableGridLayoutActivity.class);
+                       startActivity(intent);
+                       break;
+
+                   case 3:
+                       intent = new Intent(MainActivity.this, XfermodeActivity.class);
                        startActivity(intent);
                        break;
 

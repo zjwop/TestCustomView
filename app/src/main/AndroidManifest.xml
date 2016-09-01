@@ -23,6 +23,9 @@
 
         <activity android:name=".activity.TableGridLayoutActivity">
         </activity>
+
+        <activity android:name=".activity.XfermodeActivity">
+        </activity>
     </application>
 
 </manifest>
