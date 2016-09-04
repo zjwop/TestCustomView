@@ -18,6 +18,12 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:text="刮刮乐，萌路飞！"/>
+    <com.example.zhaojw.testcustomview.view.CircleView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/circleView"
+        android:background="@drawable/icon">
+    </com.example.zhaojw.testcustomview.view.CircleView>
 
 </LinearLayout>
 

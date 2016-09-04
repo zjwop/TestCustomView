@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String[] strings = {"SlidingMenu And SlidingLayout",
                                 "PullToRefreshLayout",
                                 "TableGridLayout",
-                                "XfermodeView"};
+                                "XfermodeView And CircleView"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

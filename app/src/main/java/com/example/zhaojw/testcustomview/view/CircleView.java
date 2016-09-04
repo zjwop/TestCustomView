@@ -3,34 +3,33 @@ package com.example.zhaojw.testcustomview.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.zhaojw.testcustomview.R;
+
 /**
- * Created by zjw on 2016/9/1.
+ * Created by zjw on 2016/9/5.
  */
-public class PorterDuffXfermodeView extends View{
+public class CircleView extends View {
 
     private Context mContext;
     private int width;
     private int height;
     private Canvas mCanvas;
     private Paint mPaint;
-    private Path mPath;
 
-    Bitmap shadowLayer;
+    private Bitmap shadowLayer;
 
-    public PorterDuffXfermodeView(Context context, AttributeSet attrs) {
+    public CircleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         mPaint = new Paint();
-        mPath = new Path();
         post(new Runnable() {
             @Override
             public void run() {
@@ -48,32 +47,11 @@ public class PorterDuffXfermodeView extends View{
     private void setShadowLayer(){
         shadowLayer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(shadowLayer);
-        mCanvas.drawColor(Color.GRAY);
+        mCanvas.drawColor(getResources().getColor(R.color.colorPrimary));
 
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         mPaint.setAlpha(0);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(100);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch(event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                mPath.reset();
-                mPath.moveTo(event.getX(), event.getY());
-                break;
-            case MotionEvent.ACTION_MOVE:
-                mPath.lineTo(event.getX(), event.getY());
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-        mCanvas.drawPath(mPath, mPaint);
-        invalidate();
-        return true;
+        mCanvas.drawCircle(width/2, height/2, Math.min(width, height)/2, mPaint);
     }
 
     @Override
@@ -98,5 +76,17 @@ public class PorterDuffXfermodeView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(shadowLayer, 0, 0, null);
+    }
+
+    private Bitmap drawableToBitmap(Drawable drawable) // drawable 转换成bitmap
+    {
+        int width = drawable.getIntrinsicWidth();// 取drawable的长宽
+        int height = drawable.getIntrinsicHeight();
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?Bitmap.Config.ARGB_8888:Bitmap.Config.RGB_565;// 取drawable的颜色格式
+        Bitmap bitmap = Bitmap.createBitmap(width, height, config);// 建立对应bitmap
+        Canvas canvas = new Canvas(bitmap);// 建立对应bitmap的画布
+        drawable.setBounds(0, 0, width, height);
+        drawable.draw(canvas);// 把drawable内容画到画布中
+        return bitmap;
     }
 }
