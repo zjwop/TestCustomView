@@ -65,7 +65,7 @@ public class CircleView extends View {
             measureWidth = MeasureSpec.getSize(widthMeasureSpec);
         }
         if(MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST){
-            measureHeight = getBackground().getIntrinsicWidth();
+            measureHeight = getBackground().getIntrinsicHeight();
         }else{
             measureHeight = MeasureSpec.getSize(widthMeasureSpec);
         }

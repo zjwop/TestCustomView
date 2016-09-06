@@ -21,10 +21,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ListView listView;
-    private static final String[] strings = {"SlidingMenu And SlidingLayout",
+    private static final String[] strings = {"SlidingMenu And SlidingDelete",
                                 "PullToRefreshLayout",
                                 "TableGridLayout",
-                                "XfermodeView And CircleView"};
+                                "XfermodeView And CircleView",
+                                "ImageShower And ScrollTitle"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
                    case 3:
                        intent = new Intent(MainActivity.this, XfermodeActivity.class);
+                       startActivity(intent);
+                       break;
+
+                   case 4:
+                       intent = new Intent(MainActivity.this, ImageShowerActivity.class);
                        startActivity(intent);
                        break;
 

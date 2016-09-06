@@ -26,6 +26,9 @@
 
         <activity android:name=".activity.XfermodeActivity">
         </activity>
+
+        <activity android:name=".activity.ImageShowerActivity">
+        </activity>
     </application>
 
 </manifest>
