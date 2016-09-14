@@ -21,6 +21,7 @@ import com.example.zhaojw.testcustomview.R;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Timer;
 
 /**
  * Created by zjw on 2016/9/6.
@@ -109,6 +110,7 @@ public class ImageShowerView extends RelativeLayout {
                 }
                 container.addView(view);
                 Log.d("viewpager", " Create Position: " + String.valueOf(position % imageIds.length));
+
                 return view;
             }
 
