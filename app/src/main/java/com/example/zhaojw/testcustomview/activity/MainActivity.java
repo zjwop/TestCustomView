@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
                                 "PullToRefreshLayout",
                                 "TableGridLayout",
                                 "XfermodeView And CircleView",
-                                "ImageShower And ScrollTitle"};
+                                "ImageShower",
+                                "ScrollTitleBar"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
 
                    case 4:
                        intent = new Intent(MainActivity.this, ImageShowerActivity.class);
+                       startActivity(intent);
+                       break;
+
+                   case 5:
+                       intent = new Intent(MainActivity.this, ScrollTitleBarActivity.class);
                        startActivity(intent);
                        break;
 
