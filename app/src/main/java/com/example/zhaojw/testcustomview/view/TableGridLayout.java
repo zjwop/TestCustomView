@@ -8,14 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.example.zhaojw.testcustomview.R;
+import com.example.zhaojw.testcustomview.util.DisplayUtil;
 
 import java.util.ArrayList;
 
@@ -26,8 +24,8 @@ public class TableGridLayout extends ViewGroup{
 
     private Context mContext;
 
-    private static int OUT_ITEMS_MARGIN = 30;
-    private static int INTER_ITEMS_MARGIN = 20;
+    private static int OUT_ITEMS_MARGIN = 12;
+    private static int INTER_ITEMS_MARGIN = 10;
     private static int MAX_SHOW_LINES = 3;
 
     private int windowWidth;
@@ -58,9 +56,10 @@ public class TableGridLayout extends ViewGroup{
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getSize(size);
         windowWidth = size.x;
-        //TODO add dp2px;
-        outItemsMargin = OUT_ITEMS_MARGIN;
-        interItemsMargin = INTER_ITEMS_MARGIN;
+
+        outItemsMargin = DisplayUtil.dp2px(mContext, OUT_ITEMS_MARGIN);
+        interItemsMargin = DisplayUtil.dp2px(mContext, INTER_ITEMS_MARGIN);
+
         datas = new ArrayList<String>();
 
         mScroller = new Scroller(mContext);
@@ -135,7 +134,7 @@ public class TableGridLayout extends ViewGroup{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int count = getChildCount();
         int rowNum = 0;
-        int rowRemain = windowWidth ;
+        int rowRemain = windowWidth - outItemsMargin * 2;
         if(count > 0){
             rowNum = 1;
             for(int i=0; i < count; i++){

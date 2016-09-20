@@ -76,7 +76,7 @@ public class SlidingMenuLayout extends LinearLayout{
         switch(ev.getAction()){
             case MotionEvent.ACTION_DOWN:
                 startX = ev.getRawX();
-                startY = ev.getRawX();
+                startY = ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 currentX = ev.getRawX();
