@@ -41,9 +41,15 @@ public class ScrollTitleBar extends ViewGroup{
     private int interItemMargin;
 
     private Scroller scroller;
-    private float beginX;
+
+    private float startX;
+    private float startY;
     private float curX;
+    private float curY;
     private float endX;
+    private float endY;
+
+
 
     private ItemSelectedListener mItemSelectedListener;
 
@@ -124,16 +130,53 @@ public class ScrollTitleBar extends ViewGroup{
     }
 
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
+    private void setChildrenViewsEnabled(boolean enabled){
+        int size = getChildCount();
+        for( int i = 0; i < size; i ++){
+            View childView = getChildAt(i);
+            childView.setEnabled(enabled);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        switch(ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                startX = ev.getRawX();
+                startY = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curX = ev.getRawX();
+                curY = ev.getRawY();
+                if(Math.abs(curX - startX) >= Math.abs(curY - startY)){
+                    setChildrenViewsEnabled(false);
+                    return onTouchEvent(ev);
+                }else{
+                    setChildrenViewsEnabled(true);
+                    break;
+                }
+            case MotionEvent.ACTION_UP:
+                setChildrenViewsEnabled(true);
+                break;
+        }
+
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         int scrollX = getScrollX();
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                beginX = event.getRawX();
                 break;
             case MotionEvent.ACTION_MOVE:
-                curX = event.getRawX();
-                int distanceX = (int) (curX - beginX);
+                int distanceX = (int) (curX - startX);
                 int destScrollX = 0;
                 if(distanceX >= 0){
                     destScrollX = scrollX - distanceX;
@@ -149,10 +192,12 @@ public class ScrollTitleBar extends ViewGroup{
                     }
                 }
                 scrollTo(destScrollX, 0);
-                beginX = curX;
+                startX = curX;
+                startY = curY;
                 break;
             case MotionEvent.ACTION_UP:
                 endX = event.getRawX();
+                endY = event.getRawY();
                 break;
         }
 

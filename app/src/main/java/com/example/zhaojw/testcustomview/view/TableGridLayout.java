@@ -44,8 +44,11 @@ public class TableGridLayout extends ViewGroup{
     private int widgetHeight;
     private int maxScrollY;
 
-    private float beginY;
+    private float startX;
+    private float startY;
+    private float curX;
     private float curY;
+    private float endX;
     private float endY;
 
     public TableGridLayout(Context context, AttributeSet attrs) {
@@ -127,6 +130,11 @@ public class TableGridLayout extends ViewGroup{
 
         }
     };
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
 
 
     @Override
@@ -219,6 +227,40 @@ public class TableGridLayout extends ViewGroup{
 
     }
 
+    private void setChildrenViewsEnabled(boolean enabled){
+        int size = getChildCount();
+        for( int i = 0; i < size; i ++){
+            View childView = getChildAt(i);
+            childView.setEnabled(enabled);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        switch(ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                startX = ev.getRawX();
+                startY = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curX = ev.getRawX();
+                curY = ev.getRawY();
+                if(Math.abs(curX - startX) <= Math.abs(curY - startY)){
+                    setChildrenViewsEnabled(false);
+                    return onTouchEvent(ev);
+                }else{
+                    setChildrenViewsEnabled(true);
+                    break;
+                }
+            case MotionEvent.ACTION_UP:
+                setChildrenViewsEnabled(true);
+                break;
+        }
+
+        return super.dispatchTouchEvent(ev);
+    }
+
 
 
     @Override
@@ -227,11 +269,11 @@ public class TableGridLayout extends ViewGroup{
             int scrollY = getScrollY();
             switch(event.getAction()){
                 case MotionEvent.ACTION_DOWN:
-                    beginY = event.getRawY();
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    curX = event.getRawX();
                     curY = event.getRawY();
-                    float deltaY = curY - beginY;
+                    float deltaY = curY - startY;
                     if(deltaY >= 0){
                         int destY = (int)(scrollY - deltaY);
                         if(destY < 0){
@@ -245,9 +287,11 @@ public class TableGridLayout extends ViewGroup{
                         }
                         scrollTo(0, destY);
                     }
-                    beginY = curY;
+                    startY = curY;
+                    startX = curX;
                     break;
                 case MotionEvent.ACTION_UP:
+                    endX = event.getRawX();
                     endY = event.getRawY();
             }
             return true;
