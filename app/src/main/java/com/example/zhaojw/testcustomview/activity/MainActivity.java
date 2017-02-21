@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.zhaojw.testcustomview.R;
-import com.example.zhaojw.testcustomview.view.PullToRefreshLayout;
-import com.example.zhaojw.testcustomview.view.TableGridLayout;
 
 import java.util.ArrayList;
 
@@ -21,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ListView listView;
-    private static final String[] strings = {"SlidingMenu And SlidingDelete",
+    private static final String[] strings = {
+                                "TestActivity",
+                                "SlidingMenu And SlidingDelete",
                                 "PullToRefreshLayout",
                                 "TableGridLayout",
                                 "XfermodeView And CircleView",
@@ -52,31 +52,35 @@ public class MainActivity extends AppCompatActivity {
                switch(position){
                    //TODO add activity here
                    case 0:
+                       intent = new Intent(MainActivity.this, TestActivity.class);
+                       startActivity(intent);
+                       break;
+                   case 1:
                        intent = new Intent(MainActivity.this, SlidingMenuAndDeleteLayoutActivity.class);
                        startActivity(intent);
                        break;
 
-                   case 1:
+                   case 2:
                        intent = new Intent(MainActivity.this, PullToRefreshLayoutActivity.class);
                        startActivity(intent);
                        break;
 
-                   case 2:
+                   case 3:
                        intent = new Intent(MainActivity.this, TableGridLayoutActivity.class);
                        startActivity(intent);
                        break;
 
-                   case 3:
+                   case 4:
                        intent = new Intent(MainActivity.this, XfermodeActivity.class);
                        startActivity(intent);
                        break;
 
-                   case 4:
+                   case 5:
                        intent = new Intent(MainActivity.this, ImageShowerActivity.class);
                        startActivity(intent);
                        break;
 
-                   case 5:
+                   case 6:
                        intent = new Intent(MainActivity.this, ScrollTitleBarActivity.class);
                        startActivity(intent);
                        break;
