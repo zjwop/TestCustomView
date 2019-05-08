@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="text_17_e29b03">
+        <item name="android:textSize">17dip</item>
+        <item name="android:textColor">#e29b03</item>
+    </style>
+
 </resources>

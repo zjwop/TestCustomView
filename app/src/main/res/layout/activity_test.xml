@@ -3,5 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#666666">
+    <TextView
+        android:id="@+id/tv_test_activity"
+        android:layout_height="20dp"
+        android:layout_width="match_parent"/>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
 </LinearLayout>
