@@ -71,6 +71,7 @@ public class TestSerializeFragment extends Fragment {
 //                textView.setText("" + serializeModel.id);
 //                ((TestActivity)getActivity()).onBtnClick();
                 Intent intent = new Intent(getActivity(), TestActivity2.class);
+                intent.putExtra("testKey", "zhaojw");
                 startActivity(intent);
             }
         });

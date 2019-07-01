@@ -25,6 +25,11 @@ public class TestActivity2 extends AppCompatActivity {
         Log.i("zhaojianwu", "TestActivity2 onCreate()");
         setContentView(R.layout.activity_test_2);
 
+        if (getIntent() != null) {
+            String str = getIntent().getStringExtra("testKey");
+            System.out.println(str);
+        }
+
         button = (Button)findViewById(R.id.btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
