@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by zjw on 2016/8/28.
  */
-public class TableGridLayout extends ViewGroup{
+public class FlowLayout extends ViewGroup{
 
     private Context mContext;
 
@@ -51,7 +51,7 @@ public class TableGridLayout extends ViewGroup{
     private float endX;
     private float endY;
 
-    public TableGridLayout(Context context, AttributeSet attrs) {
+    public FlowLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
 

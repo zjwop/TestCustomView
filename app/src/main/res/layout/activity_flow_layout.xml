@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.example.zhaojw.testcustomview.view.TableGridLayout
+    <com.example.zhaojw.testcustomview.view.HorizontalFlowView
+        android:id="@+id/horizontalFlowView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+
+    <com.example.zhaojw.testcustomview.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tableGridLayout"
+        android:id="@+id/flowLayout"
         android:background="#123456">
 
-    </com.example.zhaojw.testcustomview.view.TableGridLayout>
+    </com.example.zhaojw.testcustomview.view.FlowLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

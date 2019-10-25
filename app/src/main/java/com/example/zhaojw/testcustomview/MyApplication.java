@@ -9,9 +9,15 @@ import android.util.Log;
 
 public class MyApplication extends Application{
 
+    private boolean isLoad = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i("zhaojianwu", "MyApplication onCreate()");
+    }
+
+    public void setLoad(boolean isLoad) {
+        this.isLoad = isLoad;
     }
 }

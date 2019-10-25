@@ -33,6 +33,11 @@ public class TestActivity extends AppCompatActivity {
             Parcelable p = savedInstanceState.getParcelable("android:support:fragments");
             Log.i("zhaojianwu", p != null ? "have data": "null");
         }
+
+        if (getIntent() != null) {
+            TestSerializeModel model = (TestSerializeModel) getIntent().getSerializableExtra("key");
+            Log.i("zhaojianwu", String.valueOf(model.id) + model.hashCode());
+        }
         Log.i("zhaojianwu", "TestActivity onCreate()");
         super.onCreate(savedInstanceState);
 
@@ -112,6 +117,12 @@ public class TestActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i("zhaojianwu", "TestActivity onStop()");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i("zhaojianwu", "TestActivity onSaveInstanceState()");
     }
 
     @Override

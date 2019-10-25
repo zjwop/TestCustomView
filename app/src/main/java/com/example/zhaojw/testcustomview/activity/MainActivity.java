@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.zhaojw.testcustomview.MyApplication;
 import com.example.zhaojw.testcustomview.R;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                                 "TestActivity",
                                 "SlidingMenu And SlidingDelete",
                                 "PullToRefreshLayout",
-                                "TableGridLayout",
+                                "FlowLayout",
                                 "XfermodeView And CircleView",
                                 "ImageShower",
                                 "ScrollTitleBar",
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MyApplication)getApplicationContext()).setLoad(true);
         Log.i("zhaojianwu", "MainActivity onCreate()");
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.main_listView);
@@ -56,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
                switch(position){
                    //TODO add activity here
                    case 0:
-                       intent = new Intent(MainActivity.this, TestActivity.class);
+                       intent = new Intent(MainActivity.this, TestActivity2.class);
+//                       TestSerializeModel model = new TestSerializeModel();
+//                       model.id = 99;
+//                       intent.putExtra("key", model);
                        startActivity(intent);
                        break;
                    case 1:
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                        break;
 
                    case 3:
-                       intent = new Intent(MainActivity.this, TableGridLayoutActivity.class);
+                       intent = new Intent(MainActivity.this, FlowLayoutActivity.class);
                        startActivity(intent);
                        break;
 
