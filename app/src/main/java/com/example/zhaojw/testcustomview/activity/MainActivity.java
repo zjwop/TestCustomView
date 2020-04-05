@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
                                 "ImageShower",
                                 "ScrollTitleBar",
                                 "VerticalAdView",
-                                "TestListView"};
+                                "TestListView",
+                                "TestNetwork"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +104,19 @@ public class MainActivity extends AppCompatActivity {
                        intent = new Intent(MainActivity.this, TestListViewActivity.class);
                        startActivity(intent);
                        break;
+                   case 9:
+                       intent = new Intent(MainActivity.this, TestNetworkActivity.class);
+                       startActivity(intent);
+                       break;
 
                }
+            }
+        });
+        getWindow().getDecorView().post(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("zhaojianwu", "MainActivity post()");
+                getWindow().getDecorView().requestLayout();
             }
         });
     }
@@ -114,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("zhaojianwu", "MainActivity onResume()");
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.i("zhaojianwu", "MainActivity onAttachedToWindow()");
     }
 
     @Override
